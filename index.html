@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幻兽帕鲁服务器配置生成器</title>
+  <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-media" aria-hidden="true">
+      <img src="https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1623730/header_schinese.jpg" alt="">
+    </div>
+    <div class="brand-copy">
+      <p class="eyebrow">PalWorldSettings.ini</p>
+      <h1>幻兽帕鲁服务器配置生成器</h1>
+      <p>基于官方 0.7.2 配置参数，编辑后实时生成可复制的 OptionSettings。</p>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="ghost-btn" id="importBtn">导入</button>
+      <button type="button" class="ghost-btn" id="resetBtn">重置</button>
+      <button type="button" class="primary-btn" id="downloadBtn">下载 INI</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="nav-panel" aria-label="配置分组">
+      <div class="search-block">
+        <label for="searchInput">搜索配置项</label>
+        <input id="searchInput" type="search" placeholder="字段名、中文名或说明">
+      </div>
+      <nav id="groupNav" class="group-nav"></nav>
+      <div class="mini-status">
+        <span id="fieldCount">0 项配置</span>
+        <span id="changedCount">0 项已修改</span>
+      </div>
+    </aside>
+
+    <main class="main-column">
+      <section class="template-panel" aria-label="推荐模板">
+        <div class="template-head">
+          <div>
+            <p class="eyebrow">推荐模板</p>
+            <h2>选择一种服务器玩法</h2>
+          </div>
+          <p>模板只会覆盖相关玩法参数，不会改服务器名、密码、IP 等私有信息。</p>
+        </div>
+        <div id="templateGrid" class="template-grid"></div>
+      </section>
+      <div class="editor" id="editor" aria-live="polite"></div>
+    </main>
+
+    <aside class="output-panel" aria-label="生成结果">
+      <div class="output-head">
+        <div>
+          <p class="eyebrow">生成结果</p>
+          <h2>PalWorldSettings.ini</h2>
+        </div>
+        <button type="button" class="primary-btn compact" id="copyBtn">复制</button>
+      </div>
+      <textarea id="outputText" spellcheck="false"></textarea>
+      <div class="output-tools">
+        <button type="button" class="ghost-btn" id="selectAllBtn">全选</button>
+        <button type="button" class="ghost-btn" id="copyOptionBtn">仅复制 OptionSettings</button>
+      </div>
+      <p class="note">提示：如果服务器目录里存在 WorldOption.sav，可能会覆盖 ini 中的世界设置。</p>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </aside>
+  </div>
+
+  <dialog id="importDialog">
+    <form method="dialog" class="dialog-body">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">导入配置</p>
+          <h2>粘贴 PalWorldSettings.ini 或 OptionSettings</h2>
+        </div>
+        <button type="submit" class="icon-btn" aria-label="关闭">×</button>
+      </div>
+      <textarea id="importText" spellcheck="false" placeholder="[/Script/Pal.PalGameWorldSettings]&#10;OptionSettings=(Difficulty=None,DayTimeSpeedRate=1.000000,...)"></textarea>
+      <div class="dialog-actions">
+        <label class="file-btn">
+          上传文件
+          <input type="file" id="fileInput" accept=".ini,.txt">
+        </label>
+        <button type="button" class="ghost-btn" id="pasteBtn">从剪贴板粘贴</button>
+        <button type="button" class="primary-btn" id="applyImportBtn">应用导入</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="technologyDialog">
+    <form method="dialog" class="dialog-body tech-dialog-body">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">Technology IDs</p>
+          <h2>选择要禁用的科技</h2>
+        </div>
+        <button type="submit" class="icon-btn" aria-label="关闭">×</button>
+      </div>
+      <div class="tech-toolbar">
+        <input id="technologySearch" type="search" placeholder="搜索科技 ID 或英文名称">
+        <button type="button" class="ghost-btn" id="clearTechnologyBtn">清空选择</button>
+      </div>
+      <div class="selected-tech-list" id="selectedTechnologyList"></div>
+      <div class="technology-list" id="technologyList"></div>
+      <div class="dialog-actions">
+        <button type="button" class="primary-btn" id="applyTechnologyBtn">应用到禁用科技列表</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="./src/js/app.js"></script>
+</body>
+</html>
