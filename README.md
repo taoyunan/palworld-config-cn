@@ -6,14 +6,8 @@
 
 和之前的项目一样，这个项目可以直接作为网页打开使用。
 
-**推荐入口：**
 
 - GitHub Pages：<https://taoyunan.github.io/palworld-config-cn/>
-- 国内 CDN：<https://cdn.jsdelivr.net/gh/taoyunan/palworld-config-cn@main/index.html>
-- CDN 备用 1：<https://fastly.jsdelivr.net/gh/taoyunan/palworld-config-cn@main/index.html>
-- CDN 备用 2：<https://gcore.jsdelivr.net/gh/taoyunan/palworld-config-cn@main/index.html>
-
-如果 GitHub Pages 在国内访问较慢，可以优先使用 jsDelivr CDN 地址。项目是纯静态页面，不需要后端服务，打开网页即可使用。
 
 ## 当前功能
 
