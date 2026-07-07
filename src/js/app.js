@@ -26,6 +26,7 @@ const technologySearch = document.querySelector("#technologySearch");
 const technologyList = document.querySelector("#technologyList");
 const selectedTechnologyList = document.querySelector("#selectedTechnologyList");
 let selectedTechnologies = new Set();
+const TECHNOLOGY_BY_ID = new Map(TECHNOLOGIES.map((technology) => [technology.id, technology]));
 
 function getRange(field) {
   if (RANGE_BY_KEY[field.key]) return RANGE_BY_KEY[field.key];
@@ -398,7 +399,7 @@ function openTechnologyPicker() {
 
 function renderSelectedTechnologies() {
   selectedTechnologyList.innerHTML = [...selectedTechnologies].map((id) => `
-    <button type="button" data-remove-technology="${escapeHtml(id)}">${escapeHtml(id)} ×</button>
+    <button type="button" data-remove-technology="${escapeHtml(id)}">${escapeHtml(getTechnologyLabel(id))} ×</button>
   `).join("");
 }
 
@@ -406,18 +407,36 @@ function renderTechnologyList() {
   const query = technologySearch.value.trim().toLowerCase();
   const matched = TECHNOLOGIES.filter((technology) => {
     if (!query) return true;
-    return `${technology.id} ${technology.name}`.toLowerCase().includes(query);
-  });
+    return `${technology.id} ${technology.zhName} ${technology.name}`.toLowerCase().includes(query);
+  }).sort((a, b) => getTechnologyRank(a, query) - getTechnologyRank(b, query));
 
   technologyList.innerHTML = matched.map((technology) => {
     const active = selectedTechnologies.has(technology.id);
     return `
       <button type="button" class="technology-item ${active ? "active" : ""}" data-technology-id="${escapeHtml(technology.id)}">
-        <strong>${escapeHtml(technology.id)}</strong>
+        <strong>${escapeHtml(technology.zhName || technology.name)}</strong>
+        <span>${escapeHtml(technology.id)}</span>
         <span>${escapeHtml(technology.name)}</span>
       </button>
     `;
   }).join("");
+}
+
+function getTechnologyLabel(id) {
+  const technology = TECHNOLOGY_BY_ID.get(id);
+  if (!technology) return id;
+  return `${technology.zhName || technology.name} (${id})`;
+}
+
+function getTechnologyRank(technology, query) {
+  if (!query) return 0;
+  const id = technology.id.toLowerCase();
+  const zhName = (technology.zhName || "").toLowerCase();
+  const name = technology.name.toLowerCase();
+  if (zhName === query || id === query) return 0;
+  if (zhName.startsWith(query) || id.startsWith(query)) return 1;
+  if (name.startsWith(query)) return 2;
+  return 3;
 }
 
 function applyTechnologySelection() {

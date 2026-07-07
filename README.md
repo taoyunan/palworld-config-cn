@@ -65,6 +65,7 @@ palworld-config-cn/
 
 - 官方配置参数文档：<https://docs.palworldgame.com/settings-and-operation/configuration/>
 - 官方 Technology IDs：<https://docs.palworldgame.com/settings-and-operation/technologyids>
+- 科技中文名：按游戏官方简体中文译名整理，用于禁用科技列表选择器显示。
 - 推荐模板参考了常见服务器商和社区配置建议，并整理为适合中文使用者的一键预设。
 
 ## 注意
