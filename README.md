@@ -1,13 +1,26 @@
-# 幻兽帕鲁服务器配置生成器（简体中文）
+# 幻兽帕鲁中文工具箱
 
-一个纯前端的 `PalWorldSettings.ini` 配置生成器，面向《幻兽帕鲁》专用服务器管理员。页面基于官方 0.7.2 配置参数整理，支持中文说明、推荐模板、配置导入、科技禁用列表选择和 INI 下载。
+一个面向《幻兽帕鲁》玩家和服务器管理员的中文静态工具项目。当前已完成 **PalWorldSettings.ini 服务器配置生成器**，后续可以继续扩展帕鲁图鉴、配种计算器、物品/科技数据库、据点与攻略工具等模块。
 
-## 功能
+## 在线使用
+
+和之前的项目一样，这个项目可以直接作为网页打开使用。
+
+**推荐入口：**
+
+- GitHub Pages：<https://taoyunan.github.io/palworld-config-cn/>
+- 国内 CDN：<https://cdn.jsdelivr.net/gh/taoyunan/palworld-config-cn@main/index.html>
+- CDN 备用 1：<https://fastly.jsdelivr.net/gh/taoyunan/palworld-config-cn@main/index.html>
+- CDN 备用 2：<https://gcore.jsdelivr.net/gh/taoyunan/palworld-config-cn@main/index.html>
+
+如果 GitHub Pages 在国内访问较慢，可以优先使用 jsDelivr CDN 地址。项目是纯静态页面，不需要后端服务，打开网页即可使用。
+
+## 当前功能
 
 - 按“服务器管理 / 性能与据点 / 游戏倍率 / 玩家与帕鲁 / 玩法功能 / PvP 与死亡 / 高级参数”分组编辑。
 - 实时生成完整 `PalWorldSettings.ini`。
 - 支持导入已有 `PalWorldSettings.ini` 或 `OptionSettings=(...)`。
-- 推荐模板：休闲探索、均衡 PvE、硬核生存、PvP 竞技、繁育、建造、性能优先、大社区、速通、低倍慢服、独狼友好、周末活动。
+- 推荐模板：休闲探索、均衡 PvE、硬核生存、PvP 竞技、繁育与配种、建造党、性能优先、大社区、速通周目、低倍慢服、独狼友好、周末活动。
 - 禁用科技列表可从官方 Technology IDs 中搜索并点击选择。
 - 修改过的配置项会用醒目的琥珀色背景标出。
 - 可复制完整 INI、仅复制 `OptionSettings` 或下载文件。
@@ -26,7 +39,7 @@ npm start
 http://127.0.0.1:4173/
 ```
 
-也可以部署到 GitHub Pages、Vercel、Netlify 等静态托管服务。
+也可以直接部署到 GitHub Pages、Vercel、Netlify、Cloudflare Pages 等静态托管服务。
 
 ## 项目结构
 
@@ -59,6 +72,7 @@ palworld-config-cn/
 - 如果服务器存档目录中存在 `WorldOption.sav`，它可能会覆盖 `PalWorldSettings.ini` 中的世界设置。
 - `PublicPort` 是社区服务器对外显示端口，不会改变服务器实际监听端口。
 - 提高帕鲁刷新、据点数量、据点工作帕鲁数量、建筑上限等参数会增加服务器负载。
+- 通过 CDN 地址访问时，内容来自 GitHub 仓库的 `main` 分支；如果刚推送更新，CDN 可能需要一点时间刷新缓存。
 
 ## 许可证
 
