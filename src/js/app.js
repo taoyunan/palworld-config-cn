@@ -10,7 +10,6 @@ const FIELDS = FIELD_SOURCE.trim().split("\n").map((line) => {
 
 const FIELD_BY_KEY = new Map(FIELDS.map((field) => [field.key, field]));
 const state = new Map(FIELDS.map((field) => [field.key, field.defaultValue]));
-const TEMPLATE_FIELD_KEYS = new Set(TEMPLATES.flatMap((template) => Object.keys(template.values)));
 
 const editor = document.querySelector("#editor");
 const templateGrid = document.querySelector("#templateGrid");
@@ -409,9 +408,17 @@ function applySearch() {
 }
 
 function resetAll() {
-  missingFields.clear();
-  FIELDS.forEach((field) => setValue(field.key, field.defaultValue, true));
+  resetFieldsToDefault();
+  updateOutput();
   showToast("已恢复默认值。");
+}
+
+function resetFieldsToDefault() {
+  missingFields.clear();
+  FIELDS.forEach((field) => {
+    state.set(field.key, field.defaultValue);
+    syncFieldControl(field.key);
+  });
 }
 
 function parseTechnologyValue(value) {
@@ -480,13 +487,7 @@ function applyTemplate(templateId) {
   const template = TEMPLATES.find((item) => item.id === templateId);
   if (!template) return;
 
-  missingFields.clear();
-  TEMPLATE_FIELD_KEYS.forEach((key) => {
-    const field = FIELD_BY_KEY.get(key);
-    if (!field) return;
-    state.set(key, field.defaultValue);
-    syncFieldControl(key);
-  });
+  resetFieldsToDefault();
   Object.entries(template.values).forEach(([key, value]) => {
     const field = FIELD_BY_KEY.get(key);
     if (!field) return;
