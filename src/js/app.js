@@ -10,6 +10,7 @@ const FIELDS = FIELD_SOURCE.trim().split("\n").map((line) => {
 
 const FIELD_BY_KEY = new Map(FIELDS.map((field) => [field.key, field]));
 const state = new Map(FIELDS.map((field) => [field.key, field.defaultValue]));
+const TEMPLATE_FIELD_KEYS = new Set(TEMPLATES.flatMap((template) => Object.keys(template.values)));
 
 const editor = document.querySelector("#editor");
 const templateGrid = document.querySelector("#templateGrid");
@@ -19,8 +20,6 @@ const searchInput = document.querySelector("#searchInput");
 const fieldCount = document.querySelector("#fieldCount");
 const changedCount = document.querySelector("#changedCount");
 const toast = document.querySelector("#toast");
-const importDialog = document.querySelector("#importDialog");
-const importText = document.querySelector("#importText");
 const technologyDialog = document.querySelector("#technologyDialog");
 const technologySearch = document.querySelector("#technologySearch");
 const technologyList = document.querySelector("#technologyList");
@@ -344,18 +343,6 @@ function parseIniValue(field, value) {
   return value;
 }
 
-function applyImportedText(text) {
-  const parsed = parseOptionSettings(text);
-  if (!parsed) {
-    showToast("没有识别到有效的 OptionSettings。", true);
-    return;
-  }
-
-  applyParsedSettings(parsed);
-  importDialog.close();
-  showImportSummary(parsed.size);
-}
-
 function applyOutputText(text, syncOutput = true, showFeedback = true) {
   const parsed = parseOptionSettings(text);
   if (!parsed) {
@@ -494,9 +481,19 @@ function applyTemplate(templateId) {
   if (!template) return;
 
   missingFields.clear();
-  Object.entries(template.values).forEach(([key, value]) => {
-    setValue(key, value, true);
+  TEMPLATE_FIELD_KEYS.forEach((key) => {
+    const field = FIELD_BY_KEY.get(key);
+    if (!field) return;
+    state.set(key, field.defaultValue);
+    syncFieldControl(key);
   });
+  Object.entries(template.values).forEach(([key, value]) => {
+    const field = FIELD_BY_KEY.get(key);
+    if (!field) return;
+    state.set(key, normalizeValueForField(field, value));
+    syncFieldControl(key);
+  });
+  updateOutput();
   showToast(`已套用「${template.name}」模板，覆盖 ${Object.keys(template.values).length} 项配置。`);
 }
 
@@ -579,8 +576,6 @@ document.querySelector("#selectAllBtn").addEventListener("click", () => {
   outputText.select();
 });
 document.querySelector("#resetBtn").addEventListener("click", resetAll);
-document.querySelector("#importBtn").addEventListener("click", () => importDialog.showModal());
-document.querySelector("#applyImportBtn").addEventListener("click", () => applyImportedText(importText.value));
 
 outputText.addEventListener("paste", () => {
   window.clearTimeout(outputParseTimer);
@@ -619,22 +614,6 @@ document.querySelector("#clearTechnologyBtn").addEventListener("click", () => {
 });
 
 document.querySelector("#applyTechnologyBtn").addEventListener("click", applyTechnologySelection);
-
-document.querySelector("#pasteBtn").addEventListener("click", async () => {
-  try {
-    importText.value = await navigator.clipboard.readText();
-    showToast("已从剪贴板读取。");
-  } catch {
-    showToast("浏览器拒绝读取剪贴板，请手动粘贴。", true);
-  }
-});
-
-document.querySelector("#fileInput").addEventListener("change", async (event) => {
-  const [file] = event.target.files;
-  if (!file) return;
-  importText.value = await file.text();
-  showToast(`已读取文件：${file.name}`);
-});
 
 renderNav();
 renderTemplates();

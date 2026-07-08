@@ -17,8 +17,8 @@
       <p>基于官方 0.7.2 配置参数，编辑后实时生成可复制的 OptionSettings。</p>
     </div>
     <div class="header-actions">
-      <a class="ghost-btn github-btn" href="https://github.com/taoyunan/palworld-config-cn" target="_blank" rel="noopener">GitHub</a>
-      <button type="button" class="ghost-btn" id="importBtn">导入</button>
+      <a class="ghost-btn header-link" href="https://taoyunan.github.io/palworld-paldeck-cn/" target="_blank" rel="noopener">帕鲁图鉴</a>
+      <a class="ghost-btn header-link" href="https://github.com/taoyunan/palworld-config-cn" target="_blank" rel="noopener">GitHub</a>
       <button type="button" class="ghost-btn" id="resetBtn">重置</button>
     </div>
   </header>
@@ -68,27 +68,6 @@
       <div id="toast" class="toast" role="status" aria-live="polite"></div>
     </aside>
   </div>
-
-  <dialog id="importDialog">
-    <form method="dialog" class="dialog-body">
-      <div class="dialog-head">
-        <div>
-          <p class="eyebrow">导入配置</p>
-          <h2>粘贴 PalWorldSettings.ini 或 OptionSettings</h2>
-        </div>
-        <button type="submit" class="icon-btn" aria-label="关闭">×</button>
-      </div>
-      <textarea id="importText" spellcheck="false" placeholder="[/Script/Pal.PalGameWorldSettings]&#10;OptionSettings=(Difficulty=None,DayTimeSpeedRate=1.000000,...)"></textarea>
-      <div class="dialog-actions">
-        <label class="file-btn">
-          上传文件
-          <input type="file" id="fileInput" accept=".ini,.txt">
-        </label>
-        <button type="button" class="ghost-btn" id="pasteBtn">从剪贴板粘贴</button>
-        <button type="button" class="primary-btn" id="applyImportBtn">应用导入</button>
-      </div>
-    </form>
-  </dialog>
 
   <dialog id="technologyDialog">
     <form method="dialog" class="dialog-body tech-dialog-body">

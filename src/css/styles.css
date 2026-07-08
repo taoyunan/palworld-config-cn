@@ -124,7 +124,6 @@ h3 {
 
 .primary-btn,
 .ghost-btn,
-.file-btn,
 .icon-btn {
   min-height: 38px;
   border-radius: 7px;
@@ -150,7 +149,6 @@ h3 {
 }
 
 .ghost-btn,
-.file-btn,
 .icon-btn {
   background: var(--surface);
   color: var(--ink);
@@ -159,13 +157,12 @@ h3 {
 }
 
 .ghost-btn:hover,
-.file-btn:hover,
 .icon-btn:hover {
   border-color: var(--green);
   color: var(--green);
 }
 
-.github-btn {
+.header-link {
   text-transform: none;
 }
 
@@ -616,12 +613,6 @@ dialog::backdrop {
   gap: 16px;
 }
 
-#importText {
-  min-height: 260px;
-  font-family: Consolas, "SFMono-Regular", monospace;
-  line-height: 1.5;
-}
-
 .tech-dialog-body {
   max-height: min(820px, calc(100vh - 32px));
 }
@@ -699,18 +690,6 @@ dialog::backdrop {
 .technology-item span {
   color: var(--muted);
   font-size: 13px;
-}
-
-.file-btn {
-  position: relative;
-  overflow: hidden;
-}
-
-.file-btn input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
 }
 
 @media (max-width: 1240px) {
