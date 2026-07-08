@@ -356,18 +356,18 @@ function applyImportedText(text) {
   showImportSummary(parsed.size);
 }
 
-function applyOutputText(text) {
+function applyOutputText(text, syncOutput = true, showFeedback = true) {
   const parsed = parseOptionSettings(text);
   if (!parsed) {
-    showToast("没有从生成结果中识别到有效配置。", true);
+    if (showFeedback) showToast("没有从生成结果中识别到有效配置。", true);
     return;
   }
 
-  applyParsedSettings(parsed);
-  showImportSummary(parsed.size);
+  applyParsedSettings(parsed, syncOutput);
+  if (showFeedback) showImportSummary(parsed.size);
 }
 
-function applyParsedSettings(parsed) {
+function applyParsedSettings(parsed, syncOutput = true) {
   missingFields = new Set(FIELDS.filter((field) => !parsed.has(field.key)).map((field) => field.key));
   parsed.forEach((value, key) => {
     const field = FIELD_BY_KEY.get(key);
@@ -375,7 +375,12 @@ function applyParsedSettings(parsed) {
     state.set(key, normalizeValueForField(field, value));
     syncFieldControl(key);
   });
-  updateOutput();
+  if (syncOutput) {
+    updateOutput();
+  } else {
+    refreshChangedRows();
+    applySearch();
+  }
 }
 
 function showImportSummary(parsedCount) {
@@ -580,6 +585,11 @@ document.querySelector("#applyImportBtn").addEventListener("click", () => applyI
 outputText.addEventListener("paste", () => {
   window.clearTimeout(outputParseTimer);
   outputParseTimer = window.setTimeout(() => applyOutputText(outputText.value), 0);
+});
+
+outputText.addEventListener("input", () => {
+  window.clearTimeout(outputParseTimer);
+  outputParseTimer = window.setTimeout(() => applyOutputText(outputText.value, false, false), 180);
 });
 
 technologySearch.addEventListener("input", renderTechnologyList);
