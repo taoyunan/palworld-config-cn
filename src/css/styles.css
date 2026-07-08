@@ -420,6 +420,11 @@ textarea:focus {
   box-shadow: inset 4px 0 0 #d98b00;
 }
 
+.field-row.is-missing {
+  background: #ffe4e6;
+  box-shadow: inset 4px 0 0 #dc2626;
+}
+
 .field-meta {
   min-width: 0;
 }
@@ -530,6 +535,22 @@ input[type="range"] {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 12px;
+}
+
+.output-guidance {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid #f1c16b;
+  border-radius: 7px;
+  background: #fff7df;
+  color: #6b4a0d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.output-guidance code {
+  font-family: Consolas, "SFMono-Regular", monospace;
+  color: #7c2d12;
 }
 
 #outputText {
