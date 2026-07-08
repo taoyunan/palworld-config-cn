@@ -516,20 +516,29 @@ function showToast(message, isError = false) {
   }, 2600);
 }
 
-editor.addEventListener("input", (event) => {
-  const key = event.target.dataset.input;
-  if (!key) return;
-  setValue(key, event.target.value, false);
+function syncRangeForInput(key, value) {
   document.querySelectorAll(`[data-range="${CSS.escape(key)}"]`).forEach((range) => {
-    range.value = event.target.value || range.min || 0;
+    range.value = value || range.min || 0;
   });
-});
+}
 
-editor.addEventListener("input", (event) => {
-  const key = event.target.dataset.range;
-  if (!key) return;
-  setValue(key, event.target.value, true);
-});
+function handleEditorValueChange(event) {
+  const control = event.target.closest("[data-input], [data-range]");
+  if (!control || !editor.contains(control)) return;
+
+  const inputKey = control.dataset.input;
+  if (inputKey) {
+    setValue(inputKey, control.value, false);
+    syncRangeForInput(inputKey, control.value);
+    return;
+  }
+
+  const rangeKey = control.dataset.range;
+  if (rangeKey) setValue(rangeKey, control.value, true);
+}
+
+editor.addEventListener("input", handleEditorValueChange);
+editor.addEventListener("change", handleEditorValueChange);
 
 editor.addEventListener("click", (event) => {
   const button = event.target.closest("[data-boolean]");

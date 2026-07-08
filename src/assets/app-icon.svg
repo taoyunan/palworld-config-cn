@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Palworld config icon">
+  <defs>
+    <linearGradient id="bg" x1="18" y1="10" x2="78" y2="86" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2b7f67"/>
+      <stop offset="1" stop-color="#285b8f"/>
+    </linearGradient>
+    <linearGradient id="gem" x1="30" y1="24" x2="66" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff7c2"/>
+      <stop offset="1" stop-color="#8ee3d2"/>
+    </linearGradient>
+  </defs>
+  <rect width="96" height="96" rx="22" fill="url(#bg)"/>
+  <path d="M48 18 72 32v28L48 78 24 60V32l24-14Z" fill="#f7fbf7" opacity=".18"/>
+  <path d="M48 23 66 34v22L48 70 30 56V34l18-11Z" fill="url(#gem)" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M48 24v45M31 35l17 10 17-10M31 56l17-11 17 11" fill="none" stroke="#1c5f65" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+  <circle cx="72" cy="24" r="7" fill="#f7c948" stroke="#fff" stroke-width="3"/>
+  <circle cx="25" cy="71" r="5" fill="#8ee3d2" stroke="#fff" stroke-width="3"/>
+</svg>
