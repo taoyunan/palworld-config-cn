@@ -224,7 +224,7 @@ function formatIniValue(field, rawValue) {
 function formatArray(field, value) {
   const trimmed = value.trim();
   if (trimmed.startsWith("(") && trimmed.endsWith(")")) return trimmed;
-  if (!trimmed) return "()";
+  if (!trimmed) return field.key === "DenyTechnologyList" ? "" : "()";
 
   const items = splitTopLevel(trimmed).map((item) => item.trim()).filter(Boolean);
   if (field.key === "DenyTechnologyList") {
@@ -237,21 +237,22 @@ function formatArray(field, value) {
   return `(${items.join(",")})`;
 }
 
-function buildOptionSettings() {
-  const lines = FIELDS.map((field) => `  ${field.key}=${formatIniValue(field, state.get(field.key))}`);
-  return `OptionSettings=(\n${lines.join(",\n")}\n)`;
+function buildOptionSettings(pretty = false) {
+  const settings = FIELDS.map((field) => `${field.key}=${formatIniValue(field, state.get(field.key))}`);
+  if (pretty) return `OptionSettings=(\n  ${settings.join(",\n  ")}\n)`;
+  return `OptionSettings=(${settings.join(",")})`;
 }
 
-function buildIni() {
+function buildIni(pretty = false) {
   return [
     "[/Script/Pal.PalGameWorldSettings]",
-    buildOptionSettings(),
+    buildOptionSettings(pretty),
     ""
   ].join("\n");
 }
 
 function updateOutput() {
-  outputText.value = buildIni();
+  outputText.value = buildIni(true);
   refreshChangedRows();
   applySearch();
 }
@@ -570,8 +571,14 @@ templateGrid.addEventListener("click", (event) => {
   applyTemplate(button.dataset.template);
 });
 
-document.querySelector("#copyBtn").addEventListener("click", () => copyText(outputText.value, "INI 已复制到剪贴板。"));
-document.querySelector("#copyOptionBtn").addEventListener("click", () => copyText(buildOptionSettings(), "OptionSettings 已复制。"));
+document.querySelector("#copyBtn").addEventListener("click", () => {
+  applyOutputText(outputText.value, false, false);
+  copyText(buildIni(false), "INI 已复制到剪贴板。");
+});
+document.querySelector("#copyOptionBtn").addEventListener("click", () => {
+  applyOutputText(outputText.value, false, false);
+  copyText(buildOptionSettings(), "OptionSettings 已复制。");
+});
 document.querySelector("#selectAllBtn").addEventListener("click", () => {
   outputText.focus();
   outputText.select();
